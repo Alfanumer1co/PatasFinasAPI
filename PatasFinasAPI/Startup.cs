@@ -7,7 +7,7 @@ namespace PatasFinasAPI
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
         public static string dbConnectionString { get; set; }
 
         public Startup(IConfiguration configuration)

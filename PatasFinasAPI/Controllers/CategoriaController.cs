@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PatasFinasAPI.Models;
 
 namespace PatasFinasAPI.Controllers
@@ -13,7 +14,7 @@ namespace PatasFinasAPI.Controllers
         {
             BD = context;
         }
-
+        //prueba
         [HttpGet]
         public IEnumerable<Categorium> ListaDeCategorias()
         {

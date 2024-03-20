@@ -17,15 +17,16 @@ namespace PatasFinasAPI.Models
         }
 
         public virtual DbSet<Categorium> Categoria { get; set; } = null!;
+        public virtual DbSet<Persona> Personas { get; set; } = null!;
         public virtual DbSet<Producto> Productos { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-         /*   if (!optionsBuilder.IsConfigured)
+            if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Data Source=LAPTOP-EH6UJG78\\SQLEXPRESS;Initial Catalog=db_Patas_Finas;Integrated Security=SSPI; User=sa;Password=123;");
-            }*/
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,7 +34,7 @@ namespace PatasFinasAPI.Models
             modelBuilder.Entity<Categorium>(entity =>
             {
                 entity.HasKey(e => e.IdCategoria)
-                    .HasName("PK__Categori__02AA078553EEEC3C");
+                    .HasName("PK__Categori__02AA07858ED24208");
 
                 entity.Property(e => e.IdCategoria).HasColumnName("ID_Categoria");
 
@@ -42,10 +43,45 @@ namespace PatasFinasAPI.Models
                     .HasColumnName("Nombre_Categoria");
             });
 
+            modelBuilder.Entity<Persona>(entity =>
+            {
+                entity.HasKey(e => e.IdPersona)
+                    .HasName("PK__Persona__E9916EC1B1CB1BCC");
+
+                entity.ToTable("Persona");
+
+                entity.Property(e => e.IdPersona).HasColumnName("ID_Persona");
+
+                entity.Property(e => e.Apellido)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Contraseña)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Correo)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Dni)
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .HasColumnName("DNI");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefono)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Producto>(entity =>
             {
                 entity.HasKey(e => e.IdProducto)
-                    .HasName("PK__Producto__9B4120E2BE6DCF56");
+                    .HasName("PK__Producto__9B4120E230675D7F");
 
                 entity.Property(e => e.IdProducto).HasColumnName("ID_Producto");
 
@@ -59,10 +95,12 @@ namespace PatasFinasAPI.Models
 
                 entity.Property(e => e.Precio).HasColumnType("decimal(10, 2)");
 
-                entity.HasOne(d => d.objCategoria)
+                entity.Property(e => e.Stock).HasColumnName("stock");
+
+                entity.HasOne(d => d.IdCategoriaNavigation)
                     .WithMany(p => p.Productos)
                     .HasForeignKey(d => d.IdCategoria)
-                    .HasConstraintName("FK__Productos__ID_Ca__3D5E1FD2");
+                    .HasConstraintName("FK__Productos__ID_Ca__5EBF139D");
             });
 
             OnModelCreatingPartial(modelBuilder);
